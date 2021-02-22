@@ -173,43 +173,37 @@ public class VersionSettings {
 	{
 		for(int i = 1; i < versionList.getVisibleRowCount(); i++) 
 		{
-			if(i == 1) 
+			switch(i) 
 			{
-				this.versionList.getItems().add("1.7.10");
+				case 1:
+					this.versionList.getItems().add("1.7.10");
+					break;
+				case 2:
+					this.versionList.getItems().add("1.8.8");
+					break;
+				case 3:
+					this.versionList.getItems().add("1.8.9");
+					break;
+				case 4:
+					this.versionList.getItems().add("1.12.2");
+					break;
+				case 5:
+					this.versionList.getItems().add("1.15.2");
+					break;
+				case 6:
+					this.versionList.getItems().add("1.16.1");
+					break;
+				case 7:
+					this.versionList.getItems().add("1.16.2");
+					break;
+				case 8:
+					this.versionList.getItems().add("1.16.3");
+					break;
+				case 9:
+					this.versionList.getItems().add("1.16.4");
+					break;
 			}
-			else if(i == 2) 
-			{
-				this.versionList.getItems().add("1.8.8");
-			}
-			else if(i == 3) 
-			{
-				this.versionList.getItems().add("1.8.9");
-			}
-			else if(i == 4) 
-			{
-				this.versionList.getItems().add("1.12.2");
-			}
-			else if(i == 5) 
-			{
-				this.versionList.getItems().add("1.15.2");
-			}
-			else if(i == 6) 
-			{
-				this.versionList.getItems().add("1.16.1");
-			}
-			else if(i == 7) 
-			{
-				this.versionList.getItems().add("1.16.2");
-			}
-			else if(i == 8) 
-			{
-				this.versionList.getItems().add("1.16.3");
-			}
-			else if(i == 9) 
-			{
-				this.versionList.getItems().add("1.16.4");
-			}
-		}
+		}		
 	}
 
 	

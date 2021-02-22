@@ -64,11 +64,15 @@ public class LoginPanel extends IScreen {
 	public static LauncherImage avatar;
 
 	public LoginPanel(Pane root, GameEngine engine) throws IOException {
+	
 		
 		// Déselectionne la textfield par défaut
 	    Platform.runLater( () -> root.requestFocus());
+	   
 	    
 		LoginPanel.theGameEngine = engine;
+		
+		
 		/** ===================== CONFIGURATION UTILISATEUR ===================== */
 		this.config = new LauncherConfig(engine);
 		this.config.loadConfiguration();
@@ -166,36 +170,7 @@ public class LoginPanel extends IScreen {
 
 			@Override
 			public void handle(ActionEvent event) {
-				
-				if((boolean) config.getValue("useforge"))
-				{
-					switch(engine.getGameLinks().JSON_NAME)
-					{
-						case "1.7.10.json":
-							engine.setGameStyle(GameStyle.FORGE_1_7_10_OLD);
-							break;
-						case "1.8.9.json":
-						case "1.12.2.json":
-							engine.setGameStyle(GameStyle.FORGE_1_8_TO_1_12_2);
-							break;
-						case "1.15.2.json":
-							engine.setGameStyle(GameStyle.FORGE_1_13_HIGHER);
-							LauncherMain.gameForge = new GameForge("fmlclient", "31.1.0", "1.15.2", "net.minecraftforge", "20200122.131323");
-							break;
-						case "1.16.2.json":
-							engine.setGameStyle(GameStyle.FORGE_1_13_HIGHER);
-							LauncherMain.gameForge = new GameForge("fmlclient", "33.0.61", "1.16.2", "net.minecraftforge", "20200812.004259");
-							break;
-						case "1.16.3.json":
-							engine.setGameStyle(GameStyle.FORGE_1_13_HIGHER);
-							LauncherMain.gameForge = new GameForge("fmlclient", "34.1.42", "1.16.3", "net.minecraftforge", "20201025.185957");
-							break;
-					}
-				} else {
-					engine.setGameStyle(GameStyle.VANILLA);
-				}
-
-			
+	
 				config.updateValue("username", usernameField.getText());
 				if((boolean) config.getValue("rememberme")) 
 				{

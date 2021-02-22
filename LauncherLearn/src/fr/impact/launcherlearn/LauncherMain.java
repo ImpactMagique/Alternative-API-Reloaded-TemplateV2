@@ -20,26 +20,38 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+
+
 public class LauncherMain extends AlternativeBase{
 
 	private GameFolder gameFolder = new GameFolder("launcherlearn");
 	private LauncherPreferences launcherPreferences = new LauncherPreferences("LauncherLearn", 950, 600, true);
-	private GameLinks gameLinks = new GameLinks("https://www.launcherlearn.nhx.fr/", "1.12.2.json");
-	private GameEngine gameEngine = new GameEngine(gameFolder, gameLinks, launcherPreferences, GameStyle.VANILLA);
+	private static GameLinks gameLinks = new GameLinks("https://www.launcherlearn.nhx.fr/", "1.16.9.json");
+	private GameEngine gameEngine = new GameEngine(gameFolder, gameLinks, launcherPreferences, GameStyle.OPTIFINE);
 	public static GameForge gameForge;
 	private static Media media;
 	private static MediaPlayer mediaPlayer;
 	private static Stage primaryStage;
 	private static LauncherMain instance;
+	
+	
+	private void playMusic(Media media, String path) 
+	{
+		
+		media = getResourceLocation().getMedia(this.gameEngine, path);
+		mediaPlayer = new MediaPlayer(media);
+		mediaPlayer.play();
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception 
 	{
 		instance = this;
 		LauncherMain.primaryStage = primaryStage;
-		//playMusic(media, "arouf.mp3");
+	 //   this.playMusic(media, "arouf.wav");
 		Scene scene = new Scene(createContent());
 		this.gameEngine.reg(primaryStage);
+		this.gameEngine.reg(gameForge);
 		LauncherBase launcherBase = new LauncherBase(primaryStage, scene, StageStyle.UNDECORATED, gameEngine);
 		launcherBase.setIconImage(primaryStage, getResourceLocation().loadImage(gameEngine, "favicon.png"));
 	
@@ -51,7 +63,6 @@ public class LauncherMain extends AlternativeBase{
 		new LauncherBackground(gameEngine, getResourceLocation().getMedia(gameEngine, "background.mp4"), contentPane);
 		LoginPanel panel = new LoginPanel(contentPane, gameEngine);
 		readVersion(panel);
-		this.gameEngine.reg(this.gameLinks);
 		return contentPane;		
 	}
 	
@@ -61,12 +72,6 @@ public class LauncherMain extends AlternativeBase{
 	}
 	
 
-	private void playMusic(Media media, String path) 
-	{
-		media = getResourceLocation().getMedia(this.gameEngine, path);
-		mediaPlayer = new MediaPlayer(media);
-		//mediaPlayer.play();
-	}
 	
 	private void readVersion(LoginPanel panel)
 	{
@@ -110,7 +115,7 @@ public class LauncherMain extends AlternativeBase{
 	public static void resumeMusic() {LauncherMain.getMediaPlayer().setMute(false);}
 	public static Media getMedia() {return media;}
 	public static MediaPlayer getMediaPlayer() {return mediaPlayer;}
-	public GameLinks getGameLinks() {return gameLinks;}
+	public static GameLinks getGameLinks() {return gameLinks;}
 	
 
 }

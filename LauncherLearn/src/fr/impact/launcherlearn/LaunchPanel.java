@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 
 import fr.impact.launcherlearn.settings.LauncherSettings;
 import fr.trxyy.alternative.alternative_api.GameEngine;
+import fr.trxyy.alternative.alternative_api.GameForge;
+import fr.trxyy.alternative.alternative_api.GameStyle;
 import fr.trxyy.alternative.alternative_api.auth.GameAuth;
 import fr.trxyy.alternative.alternative_api.updater.GameUpdater;
 import fr.trxyy.alternative.alternative_api.utils.FontLoader;
@@ -28,6 +30,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import re.alwyn974.minecraftserverping.MinecraftServerPing;
+import re.alwyn974.minecraftserverping.MinecraftServerPingInfos;
+import re.alwyn974.minecraftserverping.MinecraftServerPingOptions;
 public class LaunchPanel extends IScreen {
 	/** LOGIN */
 	private LauncherButton loginButton;
@@ -59,7 +64,6 @@ public class LaunchPanel extends IScreen {
 	private LauncherButton resumeMusic;
 	*/
 	
-	
 	// Label
 	private LauncherLabel welcomeLabel;
 
@@ -69,14 +73,14 @@ public class LaunchPanel extends IScreen {
 		this.config = new LauncherConfig(engine);
 		this.config.loadConfiguration();
 		
-		/*// Test Lib Alwyn
-		MinecraftServerPingInfos data = new MinecraftServerPing().getPing(new MinecraftServerPingOptions().setHostname("").setPort(25565));
+		MinecraftServerPingInfos data = new MinecraftServerPing().getPing(new MinecraftServerPingOptions().setHostname("play.hypixel.net").setPort(25565));
 		this.hypixelStats = new LauncherLabel(root);
 		this.hypixelStats.setText("Hypixel est en version " + data.getVersion().getName() + " il y a une latence de " + data.getLatency() + " ms avec la France, il y a " + data.getPlayers().getOnline() + " de connectés, son motd est : " + data.getDescription());
 		this.hypixelStats.setPosition(20, 50);
-		this.hypixelStats.setVisible(true);*/
+		this.hypixelStats.setStyle("-fx-text-fill: red;");
+		this.hypixelStats.setVisible(true);
 		
-		//
+	
 		
 		/** ===================== BOUTON DE CONNEXION ===================== */
 		this.loginButton = new LauncherButton(root);
@@ -89,6 +93,39 @@ public class LaunchPanel extends IScreen {
 		this.loginButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				
+				if((boolean) config.getValue("useforge"))
+				{
+					LauncherMain.getGameLinks().JSON_NAME = config.getValue("version") + ".json";
+					
+					switch(engine.getGameLinks().JSON_NAME)
+					{
+						case "1.7.10.json":
+							engine.setGameStyle(GameStyle.FORGE_1_7_10_OLD);
+							break;
+						case "1.8.9.json":
+						case "1.12.2.json":
+							engine.setGameStyle(GameStyle.FORGE_1_8_TO_1_12_2);
+							break;
+						case "1.15.2.json":
+							engine.setGameStyle(GameStyle.OPTIFINE);
+							LauncherMain.gameForge = new GameForge("fmlclient", "31.2.45", "1.15.2", "net.minecraft.launchwrapper.Launch", "20200515.085601");
+							break;
+						case "1.16.2.json":
+							engine.setGameStyle(GameStyle.OPTIFINE);
+							LauncherMain.gameForge = new GameForge("fmlclient", "33.0.61", "1.16.2", "net.minecraft.launchwrapper.Launch", "20200812.004259");
+							break;
+						case "1.16.3.json":
+							System.out.println("Test");
+							engine.setGameStyle(GameStyle.OPTIFINE);
+							LauncherMain.gameForge = new GameForge("fmlclient", "34.1.42", "1.16.3", "net.minecraft.launchwrapper.Launch", "20201025.185957");
+							break;
+					}
+				} else {
+					engine.setGameStyle(GameStyle.VANILLA);
+				}
+				
+				
 				update(auth);		
 			}
 		});
@@ -300,5 +337,4 @@ public class LaunchPanel extends IScreen {
 		
 		new LauncherSettings(root, engine, this);
 	}
-
 }
